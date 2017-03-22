@@ -1,4 +1,5 @@
 # Packer + Vagrant + Virtualbox
+Automates the creation of any type of machine image
 
 ## Requirements
 1. Virtualbox (sudo apt-get install virtualbox)
