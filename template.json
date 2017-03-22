@@ -1,0 +1,64 @@
+{
+  "description": "Builds a Ubuntu 16.04 Server x64 box",
+
+  "variables": {
+    "hostname": "xenial64",
+    "cpus": "1",
+    "vram": "32",
+    "memory": "512",
+    "disk_size": "40000",
+    "headless" : "false",
+    "ssh_user": "vagrant",
+    "ssh_pass": "vagrant"
+  },
+
+  "builders": [
+    {
+
+      "type": "virtualbox-iso",
+      "guest_os_type": "Ubuntu_64",
+
+      "disk_size": "{{ user `disk_size` }}",
+
+      "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.2-server-amd64.iso",
+      "iso_checksum": "2bce60d18248df9980612619ff0b34e6",
+      "iso_checksum_type": "md5",
+
+      "http_directory": "http",
+
+      "boot_wait": "5s",
+      "boot_command": [
+        "<enter><wait>",
+        "<f6><esc>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs>",
+        "/install/vmlinuz ",
+        "initrd=/install/initrd.gz ",
+        "auto=true ",
+        "priority=critical ",
+        "net.ifnames=0 ",
+        "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        "<wait><enter>"
+      ],
+
+      "ssh_port": 22,
+      "ssh_username": "{{user `ssh_user`}}",
+      "ssh_password": "{{user `ssh_pass`}}",
+      "ssh_wait_timeout": "30m",
+
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--vram", "{{ user `vram` }}" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}" ]
+      ]
+
+    }
+  ]
+}
