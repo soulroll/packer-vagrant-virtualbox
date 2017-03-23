@@ -3,28 +3,44 @@
 
   "variables": {
     "hostname": "xenial64",
-    "cpus": "1",
-    "vram": "32",
-    "memory": "512",
-    "disk_size": "40000",
-    "headless" : "false",
-    "ssh_user": "vagrant",
-    "ssh_pass": "vagrant"
+    "cpus": "2",
+    "vram": "36",
+    "memory": "2048",
+    "audio": "none",
+    "usb": "off",
+    "disk_size": "40960",
+    "headless": "false",
+    "username": "vagrant",
+    "password": "vagrant"
   },
 
   "builders": [
     {
-
       "type": "virtualbox-iso",
+      "name": "ubuntu64-virtualbox",
       "guest_os_type": "Ubuntu_64",
-
       "disk_size": "{{ user `disk_size` }}",
+      "hard_drive_interface": "sata",
+
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--vram", "{{ user `vram` }}" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}" ],
+        [ "modifyvm", "{{.Name}}", "--audio", "{{ user `audio` }}"],
+        [ "modifyvm", "{{.Name}}", "--usb", "{{ user `usb` }}"]
+      ],
 
       "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.2-server-amd64.iso",
       "iso_checksum": "2bce60d18248df9980612619ff0b34e6",
       "iso_checksum_type": "md5",
 
+      "ssh_username": "{{user `username`}}",
+      "ssh_password": "{{user `password`}}",
+      "ssh_wait_timeout": "30m",
+      "ssh_port": 22,
+
       "http_directory": "http",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
 
       "boot_wait": "5s",
       "boot_command": [
@@ -48,17 +64,24 @@
         "<wait><enter>"
       ],
 
-      "ssh_port": 22,
-      "ssh_username": "{{user `ssh_user`}}",
-      "ssh_password": "{{user `ssh_pass`}}",
-      "ssh_wait_timeout": "30m",
+      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
+    }
+  ],
 
-      "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--vram", "{{ user `vram` }}" ],
-        [ "modifyvm", "{{.Name}}", "--memory", "{{ user `memory` }}" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "{{ user `cpus` }}" ]
-      ]
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "scripts": [
+      "scripts/vagrant.sh",
+      "scripts/vboxguest.sh"
+    ]
+  }],
 
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "./builds/vagrant.box"
     }
   ]
+
 }
