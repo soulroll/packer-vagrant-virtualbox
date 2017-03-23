@@ -1,4 +1,4 @@
-# Packer + Vagrant + Virtualbox
+# Packer + Vagrant + Virtualbox + Ubuntu 16.04 Server
 Automates the creation of any type of machine image.
 
 ## Requirements
