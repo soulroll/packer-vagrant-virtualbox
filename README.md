@@ -8,3 +8,13 @@ Automates the creation of any type of machine image.
 
 ## Usage
 1. Packer build template.json
+
+## Template.json
+This file explains to Packer how to build the development box, what vm hardware specifications to use, the which files to copy and what scripts to run.
+
+## Preseed.cfg
+Used by the Ubuntu installer and will automate the Ubuntu installation by automatically providing answers to all of the installation prompts.
+
+## Scripts folder
+This contains a bunch of script files called from template.json during installation.
+

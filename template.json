@@ -1,5 +1,5 @@
 {
-  "description": "Builds a Ubuntu 16.04 Server x64 box",
+  "description": "Builds a Ubuntu 16.04.2 Server x64 box",
 
   "variables": {
     "hostname": "xenial64",
@@ -72,10 +72,9 @@
     "type": "shell",
     "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
     "scripts": [
-      "scripts/vagrant.sh",
-      "scripts/vboxguest.sh",
-      "scripts/apache.sh",
-      "scripts/php.sh"
+      "scripts/base.sh",
+      "scripts/virtualbox.sh",
+      "scripts/vagrant.sh"
     ]
   }],
 
