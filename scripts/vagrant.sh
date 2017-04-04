@@ -2,18 +2,18 @@
 
 # Add no-password sudo config for vagrant user
 echo "%vagrant ALL=NOPASSWD:ALL" > /etc/sudoers.d/vagrant
+echo "Defaults:vagrant !requiretty" >> /etc/sudoers.d/vagrant
 chmod 0440 /etc/sudoers.d/vagrant
 
-# Add vagrant to sudo group
-usermod -a -G sudo vagrant
-
-# Install vagrant key
-mkdir /home/vagrant/.ssh
-chmod 700 /home/vagrant/.ssh
+# Allow Vagrant user to get in without a password by creating a temporary SSH key
+mkdir -p /home/vagrant/.ssh # Make nested directories if they don't exist already.
 cd /home/vagrant/.ssh
 wget --no-check-certificate 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub' -O authorized_keys
-chmod 600 /home/vagrant/.ssh/authorized_keys
-chown -R vagrant /home/vagrant/.ssh
 
-# Install NFS for Vagrant
-apt-get install -y nfs-common
+# Change owner and permissions
+chown -R vagrant /home/vagrant/.ssh
+chmod 700 /home/vagrant/.ssh
+chmod 600 /home/vagrant/.ssh/authorized_keys
+
+# Disable reverse lookup in SSH to speed things up
+echo "UseDNS no" >> /etc/ssh/sshd_config
