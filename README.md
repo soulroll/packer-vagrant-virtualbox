@@ -18,3 +18,6 @@ Used by the Ubuntu installer and will automate the Ubuntu installation by automa
 ## Scripts folder
 This contains a bunch of script files called from template.json during installation.
 
+## Install vbguest vagrant plugin to fix Guest Additions mismatch issues between the host and guest machine
+See: http://kvz.io/blog/2013/01/16/vagrant-tip-keep-virtualbox-guest-additions-in-sync/
+vagrant plugin install vagrant-vbguest
