@@ -72,8 +72,10 @@
     "type": "shell",
     "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
     "scripts": [
-      "scripts/apache.sh",
+      "scripts/apache2.sh",
       "scripts/php.sh",
+      "scripts/phpmyadmin.sh",
+      "scripts/git.sh",
       "scripts/virtualbox.sh",
       "scripts/vagrant.sh"
     ]
@@ -82,7 +84,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "./builds/vagrant.box"
+      "output": "./builds/xenial.box"
     }
   ]
 

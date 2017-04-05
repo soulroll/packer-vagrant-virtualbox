@@ -17,3 +17,6 @@ chmod 600 /home/vagrant/.ssh/authorized_keys
 
 # Disable reverse lookup in SSH to speed things up
 echo "UseDNS no" >> /etc/ssh/sshd_config
+
+# Disable GSSAPI Authentication to speed things up
+echo "GSSAPIAuthentication no" >> /etc/ssh/sshd_config
