@@ -76,6 +76,9 @@
       "scripts/php.sh",
       "scripts/phpmyadmin.sh",
       "scripts/git.sh",
+      "scripts/curl.sh",
+      "scripts/composer.sh",
+      "scripts/nodejs.sh",
       "scripts/virtualbox.sh",
       "scripts/vagrant.sh"
     ]
